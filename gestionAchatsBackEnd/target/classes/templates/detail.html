@@ -1,0 +1,19 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="ISO-8859-1">
+    <title>Gestion client</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+</head>
+<body>
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Détails du client</h5>
+            <p class="card-text">Nom du client: <span th:text="${client.nom}"></span></p>
+            <!-- Vous pouvez ajouter d'autres informations du client ici -->
+        </div>
+      </div>
+</body>

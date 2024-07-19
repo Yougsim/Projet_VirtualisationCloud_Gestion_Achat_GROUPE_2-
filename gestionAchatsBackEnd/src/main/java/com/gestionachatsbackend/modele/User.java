@@ -8,29 +8,29 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="user")
+@Table(name = "user")
 public class User {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idUser;
-	
+
 	@Column
 	private String nom;
-	
+
 	@Column
 	private String prenom;
-	
+
 	@Column
 	private String email;
-	
+
 	@Column
 	private String password;
 
-	public User () {
-		
+	public User() {
+
 	}
-	
+
 	public User(String nom, String prenom, String email, String password) {
 		super();
 		this.nom = nom;
@@ -84,6 +84,5 @@ public class User {
 		return "User [idUser=" + idUser + ", nom=" + nom + ", prenom=" + prenom + ", email=" + email + ", password="
 				+ password + "]";
 	}
-	
-	
+
 }

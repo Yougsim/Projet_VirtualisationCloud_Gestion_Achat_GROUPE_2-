@@ -8,32 +8,36 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name="client")
+@Table(name = "client")
 public class Client {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idClient;
-	
+
 	@Column
 	private String nom;
-	
+
 	@Column
 	private String prenom;
-	
+
 	@Column
 	private String telephone;
+
+	@Column
+	private String email;
 
 	public Client() {
 		super();
 	}
-	
-	public Client(int idClient, String nom, String prenom, String telephone) {
+
+	public Client(int idClient, String nom, String prenom, String telephone, String email) {
 		super();
 		this.idClient = idClient;
 		this.nom = nom;
 		this.prenom = prenom;
 		this.telephone = telephone;
+		this.email = email;
 	}
 
 	public int getidClient() {
@@ -70,8 +74,8 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return "Client [idClient=" + idClient + ", nom=" + nom + ", prenom=" + prenom + ", telephone=" + telephone + "]";
+		return "Client [idClient=" + idClient + ", nom=" + nom + ", prenom=" + prenom + ", telephone=" + telephone
+				+ "]";
 	}
-	
-	
+
 }

@@ -23,8 +23,8 @@ import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
+import Inventory2Icon from '@mui/icons-material/Inventory2';
+import { NavLink } from 'react-router-dom';
 
 const drawerWidth = 240;
 
@@ -85,7 +85,7 @@ class Header extends Component {
         /* this.setState(prevState => ({
             open: !prevState.open
         })); */
-        this.setState({open: !this.state.open})
+        this.setState({ open: !this.state.open })
     }
 
     render() {
@@ -146,29 +146,27 @@ class Header extends Component {
                             </ListItemIcon>
                             <ListItemText primary="Dashboard" />
                         </ListItemButton>
+                        <NavLink to="/" >
                         <ListItemButton>
                             <ListItemIcon>
                                 <PeopleIcon />
                             </ListItemIcon>
                             <ListItemText primary="Customers" />
                         </ListItemButton>
+                        </NavLink>
+                        <NavLink to="/Produit" >
+                            <ListItemButton>
+                                <ListItemIcon>
+                                    <Inventory2Icon />
+                                </ListItemIcon>
+                                <ListItemText primary="Produits" />
+                            </ListItemButton>
+                        </NavLink>
                         <ListItemButton>
                             <ListItemIcon>
                                 <ShoppingCartIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Orders" />
-                        </ListItemButton>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <BarChartIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Reports" />
-                        </ListItemButton>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <LayersIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Integrations" />
+                            <ListItemText primary="Achats" />
                         </ListItemButton>
                     </List>
                 </Drawer>

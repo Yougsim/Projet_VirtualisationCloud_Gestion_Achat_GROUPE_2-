@@ -28,6 +28,9 @@ import LayersIcon from '@mui/icons-material/Layers';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import SearchIcon from '@mui/icons-material/Search';
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+import server from '../config/serverhost';
 
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -49,16 +52,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
         border: 0,
     },
 }));
-var x;
+
 class Client extends Component {
 
     constructor(props) {
         super(props);
-        this.firstRef = React.createRef()
-        this.forceRef = React.createRef()
         this.state = {
             client: {},
-            clients: []
+            clients: [],
+            search:'',
         };
         this.handleChange = this.handleChange.bind(this);
     }
@@ -76,7 +78,7 @@ class Client extends Component {
         console.log(this.state.client)
     }
 
-    load = () =>{
+    load = () => {
         var myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -84,14 +86,14 @@ class Client extends Component {
 
         var requestOptions = {
             method: 'GET',
-            headers: myHeaders,
+            headers: myHeaders
         };
 
-        fetch("http://localhost:8081/allClients", requestOptions)
+        fetch(server.url+"/allClients", requestOptions)
             .then(response => response.json())
             .then((result) => {
                 console.log(result)
-                this.setState({clients : result})
+                this.setState({ clients: result })
             })
             .catch(error => console.log('error', error));
     }
@@ -109,7 +111,7 @@ class Client extends Component {
             body: data,
         };
 
-        fetch("http://localhost:8081/addClient", requestOptions)
+        fetch(server.url+"/addClient", requestOptions)
             .then(response => response.json())
             .then((result) => {
                 console.log(result)
@@ -213,7 +215,7 @@ class Client extends Component {
                                         >
                                             <Grid >
                                                 <SearchIcon sx={{ color: 'action.active', mr: 1, my: 0.5 }} />
-                                                <TextField id="" placeholder='rechercher' label="" variant="standard" />
+                                                <TextField onChange={(e) => this.setState({ search: e.target.value })} sx={{width: '330px'}} id="" placeholder='rechercher' label="" variant="standard" />
                                             </Grid>
                                         </Grid>
                                     </Box>
@@ -227,14 +229,31 @@ class Client extends Component {
                                                 </TableRow>
                                             </TableHead>
                                             <TableBody>
-                                                {this.state.clients?.map((c) => (
-                                                <StyledTableRow key={c.id}>
-                                                    <StyledTableCell >
-                                                        {c.nom + ' ' + c.prenom}
-                                                    </StyledTableCell>
-                                                    <StyledTableCell >{/* {row.calories} */} {c.telephone}</StyledTableCell>
-                                                    <StyledTableCell >{/* {row.calories} */} </StyledTableCell>
-                                                </StyledTableRow>
+                                                {this.state.clients
+                                                .filter((c) => {
+                                                    if (this.state.search == "") {
+                                                        return c
+                                                      } else {
+                                                        if ((c.nom.toLowerCase().includes(this.state.search.toLowerCase())) || (c.prenom.toLowerCase().includes(this.state.search.toLowerCase())) || (c.telephone.toLowerCase().includes(this.state.search.toLowerCase()))) {
+                                                            return c;
+                                                          }
+                                                      }
+                                                })
+                                                .map((c) => (
+                                                    <StyledTableRow key={c.idClient}>
+                                                        <StyledTableCell >
+                                                            {c.nom + ' ' + c.prenom}
+                                                        </StyledTableCell>
+                                                        <StyledTableCell >{c.telephone}</StyledTableCell>
+                                                        <StyledTableCell >
+                                                            <IconButton color="warming" aria-label="add to shopping cart">
+                                                                <EditIcon />
+                                                            </IconButton>
+                                                            <IconButton color="error" aria-label="add to shopping cart">
+                                                                <DeleteIcon />
+                                                            </IconButton>
+                                                        </StyledTableCell>
+                                                    </StyledTableRow>
                                                 ))}
                                             </TableBody>
                                         </Table>

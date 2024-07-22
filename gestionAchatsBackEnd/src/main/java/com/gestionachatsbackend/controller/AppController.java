@@ -50,6 +50,7 @@ public class AppController {
 		}
 	}
 	
+	
 	@GetMapping("/allClients")
 	public ResponseEntity<List<Client>> getAllClients(){
 		try {
@@ -74,6 +75,7 @@ public class AppController {
 		return new ResponseEntity<>(clientObj,HttpStatus.OK);
 	}
 	
+	
 	@GetMapping("/allProduits")
 	public ResponseEntity<List<Produit>> getAllProduits(){
 		try {
@@ -89,6 +91,7 @@ public class AppController {
 			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
+	
 	
 	@PostMapping("/addProduit")
 	public ResponseEntity<Produit> addProduit(@RequestBody Produit Produit) {

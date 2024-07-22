@@ -7,6 +7,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Client from './pages/Client';
 import Header from './Componants/Header';
+import Produit from './pages/Produit';
 
 const defaultTheme = createTheme();
 function App() {
@@ -16,13 +17,14 @@ function App() {
   };
 
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/gestionachats">
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
         <CssBaseline />
         <Header/>
         <Routes>
           <Route index element={<Client/>} />
+          <Route path="/Produit" element={<Produit />} />
         </Routes>
       </Box>
     </ThemeProvider>

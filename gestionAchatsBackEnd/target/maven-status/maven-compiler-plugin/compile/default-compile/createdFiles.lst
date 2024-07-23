@@ -1,9 +1,9 @@
 com\gestionachatsbackend\modele\Produit.class
 com\gestionachatsbackend\repository\UserRepository.class
+com\gestionachatsbackend\repository\ProduitRepository.class
 com\gestionachatsbackend\repository\ClientRepository.class
 com\gestionachatsbackend\GestionAchatsBackEndApplication.class
 com\gestionachatsbackend\service\AppService.class
 com\gestionachatsbackend\modele\User.class
-com\gestionachatsbackend\modele\Client.class
-com\gestionachatsbackend\repository\ProduitRepository.class
 com\gestionachatsbackend\controller\AppController.class
+com\gestionachatsbackend\modele\Client.class

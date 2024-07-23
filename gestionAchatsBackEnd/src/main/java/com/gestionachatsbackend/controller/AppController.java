@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
+import com.gestionachatsbackend.modele.Achat;
 import com.gestionachatsbackend.modele.Client;
 import com.gestionachatsbackend.modele.Produit;
 import com.gestionachatsbackend.modele.User;
+import com.gestionachatsbackend.repository.AchatRepository;
 import com.gestionachatsbackend.repository.ClientRepository;
 import com.gestionachatsbackend.repository.ProduitRepository;
 import com.gestionachatsbackend.repository.UserRepository;
@@ -36,6 +39,9 @@ public class AppController {
 
 	@Autowired
 	private ProduitRepository produitRepo;
+
+	@Autowired
+	private AchatRepository achatRepo;
 
 	@Autowired
 	private AppService clientService;
@@ -159,6 +165,65 @@ public class AppController {
 	public ResponseEntity<Produit> updateProduit(@PathVariable Integer id, @RequestBody Produit updateProduit) {
 		try {
 			Produit updated = produService.updateProduit(id, updateProduit);
+			return ResponseEntity.ok(updated);
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+		}
+	}
+
+	///////////////////////// Achat Controller///////////////////////////////
+	@GetMapping("/allAchats")
+	public ResponseEntity<List<Achat>> getAllAchat() {
+		try {
+			List<Achat> AchatList = new ArrayList<>();
+			achatRepo.findAll().forEach(AchatList::add);
+			if (AchatList.isEmpty()) {
+				return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+			}
+
+			return new ResponseEntity<>(AchatList, HttpStatus.OK);
+		} catch (Exception ex) {
+			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+
+	}
+
+	@PostMapping("/addAchat")
+	public ResponseEntity<Achat> addAchat(@RequestBody Achat achat) {
+		Achat achatObj = achatRepo.save(achat);
+
+		return new ResponseEntity<>(achatObj, HttpStatus.OK);
+	}
+
+	@DeleteMapping("/deleteAchat/{id}")
+	public ResponseEntity<Void> deleteAchat(@PathVariable Integer id) {
+		Optional<Achat> optional = achatRepo.findById(id);
+		if (optional.isPresent()) {
+			achatRepo.deleteById(id);
+		} else {
+			throw new ResponseStatusException(HttpStatus.NOT_FOUND, "achat not found for id :: " + id);
+		}
+		return ResponseEntity.noContent().build();
+	}
+
+	@GetMapping("/showAchat/{id}")
+	public ResponseEntity<Achat> showAchat(@PathVariable(value = "id") Integer id) {
+
+		Optional<Achat> optional = achatRepo.findById(id);
+		Achat achat = null;
+		if (optional.isPresent()) {
+			achat = optional.get();
+		} else {
+			throw new RuntimeException(" achat not found for id :: " + id);
+		}
+
+		return new ResponseEntity<>(achat, HttpStatus.OK);
+	}
+
+	@PutMapping("/achat/{id}")
+	public ResponseEntity<Achat> updateAchat(@PathVariable Integer id, @RequestBody Achat updateachat) {
+		try {
+			Achat updated = produService.updateAchat(id, updateachat);
 			return ResponseEntity.ok(updated);
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

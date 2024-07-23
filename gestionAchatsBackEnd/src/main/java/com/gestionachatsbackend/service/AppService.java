@@ -3,8 +3,10 @@ package com.gestionachatsbackend.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.gestionachatsbackend.modele.Achat;
 import com.gestionachatsbackend.modele.Client;
 import com.gestionachatsbackend.modele.Produit;
+import com.gestionachatsbackend.repository.AchatRepository;
 import com.gestionachatsbackend.repository.ClientRepository;
 import com.gestionachatsbackend.repository.ProduitRepository;
 
@@ -16,6 +18,9 @@ public class AppService {
 
     @Autowired
     private ProduitRepository produitRepository;
+
+    @Autowired
+    private AchatRepository achatRepository;
 
     public Client updateClient(Integer id, Client updatedClient) {
         // Recherche le client existant par son ID
@@ -43,6 +48,19 @@ public class AppService {
 
         // Enregistre les modifications dans la base de données
         return produitRepository.save(existingProduit);
+    }
+
+    public Achat updateAchat(Integer id, Achat updatedAchat) {
+        // Recherche le produit existant par son ID
+        Achat existingAchat = achatRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("achat not found with id: " + id));
+
+        existingAchat.setDateAchat(updatedAchat.getDateAchat());
+        existingAchat.setIdClient(updatedAchat.getIdClient());
+        existingAchat.setIdProduit(updatedAchat.getIdProduit());
+
+        // Enregistre les modifications dans la base de données
+        return achatRepository.save(existingAchat);
     }
 
 }

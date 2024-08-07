@@ -18,13 +18,15 @@ import Link from '@mui/material/Link';
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { ListItemButton, ListItemIcon, ListItemText, lighten } from '@mui/material';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PeopleIcon from '@mui/icons-material/People';
 import BarChartIcon from '@mui/icons-material/BarChart';
 import Inventory2Icon from '@mui/icons-material/Inventory2';
 import { NavLink } from 'react-router-dom';
+import { Logout } from '@mui/icons-material';
+import AppContext, { AppContextProvider } from '../Context/AppContext';
 
 const drawerWidth = 240;
 
@@ -73,12 +75,20 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 );
 
 class Header extends Component {
+
+    static contextType = AppContext;
+
     constructor(props) {
         super(props);
         this.state = {
             persons: [],
             open: false
         };
+    }
+
+    logOut = ()=>{
+        const {logOut} = this.context;
+        logOut();
     }
 
     toggleDrawer = () => {
@@ -89,6 +99,9 @@ class Header extends Component {
     }
 
     render() {
+        const {menu} = this.context;
+        const {changeMenu} = this.context;
+        console.log(menu)
         return (
             <>
                 <AppBar position="absolute" open={this.state.open}>
@@ -118,10 +131,8 @@ class Header extends Component {
                         >
                             Gestion Achats
                         </Typography>
-                        <IconButton color="inherit">
-                            <Badge badgeContent={4} color="secondary">
-                                <NotificationsIcon />
-                            </Badge>
+                        <IconButton color="inherit" onClick={() => this.logOut()}>
+                            <Logout fontSize="lg" />
                         </IconButton>
                     </Toolbar>
                 </AppBar>
@@ -140,34 +151,38 @@ class Header extends Component {
                     </Toolbar>
                     <Divider />
                     <List component="nav">
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <DashboardIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Dashboard" />
-                        </ListItemButton>
                         <NavLink to="/" >
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <PeopleIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Customers" />
-                        </ListItemButton>
+                            <ListItemButton onClick={() => changeMenu("dash")} sx={menu == "dash" ? {bgcolor: '#e7e9eb'} : ""}>
+                                <ListItemIcon>
+                                    <DashboardIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Dashboard" />
+                            </ListItemButton>
+                        </NavLink>
+                        <NavLink to="/Client" >
+                            <ListItemButton onClick={() => changeMenu("client")} sx={menu == "client" ? {bgcolor: '#e7e9eb'} : ""}>
+                                <ListItemIcon>
+                                    <PeopleIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Clients" />
+                            </ListItemButton>
                         </NavLink>
                         <NavLink to="/Produit" >
-                            <ListItemButton>
+                            <ListItemButton onClick={() => changeMenu("produit")} sx={menu == "produit" ? {bgcolor: '#e7e9eb'} : ""}>
                                 <ListItemIcon>
                                     <Inventory2Icon />
                                 </ListItemIcon>
                                 <ListItemText primary="Produits" />
                             </ListItemButton>
                         </NavLink>
-                        <ListItemButton>
-                            <ListItemIcon>
-                                <ShoppingCartIcon />
-                            </ListItemIcon>
-                            <ListItemText primary="Achats" />
-                        </ListItemButton>
+                        <NavLink to="/Achat" >
+                            <ListItemButton onClick={() => changeMenu("achat")} sx={menu == "achat" ? {bgcolor: '#e7e9eb'} : ""}>
+                                <ListItemIcon>
+                                    <ShoppingCartIcon />
+                                </ListItemIcon>
+                                <ListItemText primary="Achats" />
+                            </ListItemButton>
+                        </NavLink>
                     </List>
                 </Drawer>
             </>

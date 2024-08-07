@@ -3,7 +3,11 @@ com\gestionachatsbackend\repository\UserRepository.class
 com\gestionachatsbackend\repository\ClientRepository.class
 com\gestionachatsbackend\GestionAchatsBackEndApplication.class
 com\gestionachatsbackend\service\AppService.class
+com\gestionachatsbackend\modele\Achat.class
 com\gestionachatsbackend\modele\User.class
 com\gestionachatsbackend\modele\Client.class
+com\gestionachatsbackend\repository\PanierRepository.class
 com\gestionachatsbackend\repository\ProduitRepository.class
+com\gestionachatsbackend\modele\Panier.class
+com\gestionachatsbackend\repository\AchatRepository.class
 com\gestionachatsbackend\controller\AppController.class

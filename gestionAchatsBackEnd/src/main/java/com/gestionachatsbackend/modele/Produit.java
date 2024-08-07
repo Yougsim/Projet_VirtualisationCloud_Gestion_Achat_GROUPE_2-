@@ -1,14 +1,24 @@
 package com.gestionachatsbackend.modele;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name="produit")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class,property = "idProduit")
 public class Produit {
 	
 	@Id
@@ -25,6 +35,8 @@ public class Produit {
 		super();
 	}
 	
+	@OneToMany(mappedBy = "produit"/* , fetch = FetchType.LAZY */, cascade =CascadeType.ALL )
+    private List<Panier> achats  = new ArrayList<>();
 	
 	public Produit(int idProduit, String designation, Double prix) {
 		super();
@@ -62,6 +74,18 @@ public class Produit {
 	public void setPrix(Double prix) {
 		this.prix = prix;
 	}
+	
+	
+
+	public List<Panier> getAchats() {
+		return achats;
+	}
+
+
+	public void setAchats(List<Panier> achats) {
+		this.achats = achats;
+	}
+
 
 	@Override
 	public String toString() {

@@ -1,0 +1,50 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+    # Config  VM Web
+    config.vm.define "web" do |web|
+      # box
+      web.vm.box = "ubuntu/bionic64"
+      # hostname
+      web.vm.hostname = "web"  
+      # config réseau
+      web.vm.network "private_network", ip: "192.168.33.10"
+      #web.vm.network "forwarded_port", guest: 80, host: 8080
+      # config.vm.provision "shell", inline: <<-SHELL
+      web.vm.provision "shell", path: "provision/web_provision.sh"
+      # config rsync
+    end
+  
+    # Config VM Application
+    config.vm.define "app" do |app|
+      # box
+      app.vm.box = "ubuntu/bionic64"
+      # hostname
+      app.vm.hostname = "app"
+      # config réseau
+      app.vm.network "private_network", ip: "192.168.33.11"
+      #app.vm.network "forwarded_port", guest: 8080, host: 8080
+      # config.vm.provision "shell", inline: <<-SHELL
+      app.vm.provision "shell", path: "provision/app_provision.sh"
+      # config rsync
+      app.vm.synced_folder "D:/COURS_IBAM/S2/virtualisation_et_cloud_computing/projet/groupe2_vagrant", "/vagrant"
+    end
+
+    # Config VM Base de Données
+    config.vm.define "db" do |db|
+      # box
+      db.vm.box = "ubuntu/bionic64"
+      # hostname
+      db.vm.hostname = "db"
+      # config réseau
+      db.vm.network "private_network", ip: "192.168.33.12"
+      #db.vm.network "forwarded_port", guest: 3306, host: 3307 
+      # config.vm.provision "shell", inline: <<-SHELL
+      db.vm.provision "shell", path: "provision/db_provision.sh"
+      # config rsync
+      
+    end
+    
+end
